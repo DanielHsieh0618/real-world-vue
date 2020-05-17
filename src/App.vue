@@ -1,29 +1,32 @@
 <template>
   <div id="app">
     <div id="nav">
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>-->
       <nav class="navbar navbar-light">
         <div class="container">
-          <a class="navbar-brand" href="index.html">conduit</a>
+          <router-link class="navbar-brand" :to="{name:'Home'}">conduit</router-link>
           <ul class="nav navbar-nav pull-xs-right">
             <li class="nav-item">
               <router-link class="nav-link" active-class="active" :to="{name:'Home'}">Home</router-link>
             </li>
-            <li class="nav-item">
-              <!-- <a class="nav-link" href>
-                <i class="ion-compose"></i>&nbsp;New Post
-              </a>-->
-              <router-link class="nav-link" active-class="active" :to="{name:'Login'}">Sign in</router-link>
-            </li>
             <!-- <li class="nav-item">
-              <a class="nav-link" href>
+              <router-link class="nav-link" active-class="active" :to="{name:'Home'}">
+                <i class="ion-compose"></i>&nbsp;New Post
+              </router-link>
+            </li>-->
+            <!-- <li class="nav-item">
+              <router-link class="nav-link" active-class="active" :to="{name:'Home'}">
                 <i class="ion-gear-a"></i>&nbsp;Settings
-              </a>
+              </router-link>
             </li>-->
             <li class="nav-item">
-              <!-- <a class="nav-link" href>Sign up</a> -->
-              <router-link class="nav-link" active-class="active" :to="{name:'Register'}">Sign up</router-link>
+              <router-link class="nav-link" active-class="active" :to="{name:'Login'}">
+                <i class="ion-compose"></i>&nbsp;Sign in
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" active-class="active" :to="{name:'Register'}">
+                <i class="ion-compose"></i>&nbsp;Sign up
+              </router-link>
             </li>
           </ul>
         </div>
