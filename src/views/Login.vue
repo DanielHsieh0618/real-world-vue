@@ -8,7 +8,7 @@
             <!-- <a href>Need an account?</a> -->
             <router-link :to="{name:'Register'}">Need an account?</router-link>
           </p>
-
+          <!--validation sections-->
           <ul class="error-messages">
             <li>That email is already taken</li>
           </ul>
