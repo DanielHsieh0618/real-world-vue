@@ -1,13 +1,21 @@
 import axios from 'axios'
 
-const API_URL = "https://https://conduit.productionready.io/api"
+const API_URL = "https://conduit.productionready.io/api"
+
+const headers = {
+    'Content-Type': 'application/json'
+  }
 
 class AuthService {
     login(user) {
-        return axios.post(API_URL + 'signin', {
-            username: user.username,
-            password: user.password
-        }).then(response => {
+
+        let data ={
+            "user":{
+                "email": user.email,
+                "password": user.password
+            }}
+
+        return axios.post(API_URL + '/users/login', JSON.stringify(data),{ headers}).then(response => {
             if (response.data.accessToken) {
                 window.localStorage.setItem('user', JSON.stringify(response.data))
 
