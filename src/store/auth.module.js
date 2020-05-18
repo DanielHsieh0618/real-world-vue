@@ -1,60 +1,59 @@
 import AuthService from '../services/auth.service';
 
 const user = JSON.parse(window.localStorage.getItem('user'));
-const initialState = user 
-? { status: { loggedIn:true }, user }
-: { status: { loggedIn:false}, user:null };
+const initialState = user
+    ? { status: { loggedIn: true }, user }
+    : { status: { loggedIn: false }, user: null };
 
-export const auth ={
-    namespaced:true,
+export const auth = {
+    namespaced: true,
     state: initialState,
-    actions:{
-        login({ commit }, user){
-            debugger
-            console.log('login')
+    actions: {
+        login({ commit }, user) {
             return AuthService.login(user)
-            .then(user => { 
-                commit('loginSucess', user)
-                return Promise.resolve(user)
-            })
-            .catch(error =>{
-                return Promise.reject(error)
-            });
+                .then(user => {
+                    commit('loginSuccess', user)
+                    return Promise.resolve(user)
+                })
+                .catch(error => {
+                    commit('loginFailure')
+                    return Promise.reject(error)
+                });
         },
-        logout({ commit }){
+        logout({ commit }) {
             AuthService.logout();
             commit('logout')
         },
-        register({ commit },user){
+        register({ commit }, user) {
             return AuthService.register(user)
-            .then(response=>{
-                commit('registerSuccess');
-                return Promise.resolve(response.data);
-            })
-            .catch(error=>{
-                commit('registerFailure');
-                return Promise.reject(error)
-            });
+                .then(response => {
+                    commit('registerSuccess');
+                    return Promise.resolve(response.data);
+                })
+                .catch(error => {
+                    commit('registerFailure');
+                    return Promise.reject(error)
+                });
         }
     },
-    mutations:{
-        loginSuccess(state, user){
+    mutations: {
+        loginSuccess(state, user) {
             console.log('loginSuccess')
             state.status.loggedIn = true;
             state.user = user;
         },
-        loginFailure(state){
+        loginFailure(state) {
             state.status.loggedIn = false;
             state.user = null;
         },
-        logout(state){
+        logout(state) {
             state.status.loggedIn = false;
             state.user = null;
         },
-        registerSuccess(state){
+        registerSuccess(state) {
             state.status.loggedIn = false;
         },
-        registerFailure(state){
+        registerFailure(state) {
             state.status.loggedIn = false;
         }
     }
