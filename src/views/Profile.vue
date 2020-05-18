@@ -4,13 +4,13 @@
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
-            <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img" />
-            <h4>Eric Simons</h4>
-            <p>Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the Hunger Games</p>
+            <img :src="profile.image" class="user-img" />
+            <h4>{{profile.username}}</h4>
+            <!-- <p>Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the Hunger Games</p> -->
             <button class="btn btn-sm btn-outline-secondary action-btn">
               <i class="ion-plus-round"></i>
               &nbsp;
-              Follow Eric Simons
+              Follow {{profile.username}}
             </button>
           </div>
         </div>
@@ -37,7 +37,7 @@
                 <img src="http://i.imgur.com/Qr71crq.jpg" />
               </a>
               <div class="info">
-                <a href class="author">Eric Simons</a>
+                <a href class="author">{{profile.username}}</a>
                 <span class="date">January 20th</span>
               </div>
               <button class="btn btn-outline-primary btn-sm pull-xs-right">
@@ -51,7 +51,7 @@
             </a>
           </div>
 
-          <div class="article-preview">
+          <!-- <div class="article-preview">
             <div class="article-meta">
               <a href>
                 <img src="http://i.imgur.com/N4VcUeJ.jpg" />
@@ -73,9 +73,33 @@
                 <li class="tag-default tag-pill tag-outline">Song</li>
               </ul>
             </a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import {ProfileService} from '@/services/api.service'
+import {mapState} from 'vuex';
+
+export default {
+  computed:{
+        ...mapState("auth", ["user"])
+  },
+  data(){
+    return {
+      profile:null
+    }
+  },
+  mounted(){
+    ProfileService.get(this.user.username).then(res=>{
+      console.log('res',res)
+      this.profile = res.data.profile
+    }).catch(err=>{
+      throw new Error('Error:', err)
+    })
+  }
+}
+</script>

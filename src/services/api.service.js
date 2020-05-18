@@ -62,3 +62,10 @@ export const ArticlesService = {
         return new ApiService().get('articles',slug)
     }
 }
+
+
+export const ProfileService = {
+    get(username) {
+        return new ApiService().get(`profiles/${username}`)
+    }
+}

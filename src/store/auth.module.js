@@ -10,9 +10,10 @@ export const auth = {
     state: initialState,
     actions: {
         login({ commit }, user) {
+            debugger
             return AuthService.login(user)
-                .then(user => {
-                    commit('loginSuccess', user)
+                .then(response => {
+                    commit('loginSuccess', response)
                     return Promise.resolve(user)
                 })
                 .catch(error => {
@@ -37,9 +38,9 @@ export const auth = {
         }
     },
     mutations: {
-        loginSuccess(state, user) {
+        loginSuccess(state, response) {
             state.status.loggedIn = true;
-            state.user = user;
+            state.user = response.user;
         },
         loginFailure(state) {
             state.status.loggedIn = false;

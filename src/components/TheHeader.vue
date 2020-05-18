@@ -20,7 +20,7 @@
        
           <li v-if='isAuthenticated' class="nav-item">
             <router-link class="nav-link" active-class="active" :to="{name:'Profile'}">
-              <i class="ion-compose"></i>&nbsp;Profile
+              <i class="ion-person"></i>&nbsp; {{user.username}}
             </router-link>
           </li>
           <li v-if='!status.loggedIn'  class="nav-item">
@@ -33,8 +33,7 @@
               <i class="ion-compose"></i>&nbsp;Sign up
             </router-link>
           </li>
-          <!-- <li>{{user}}</li> -->
-          <!-- <li>{{status}}</li> -->
+        
         </ul>
       </div>
     </nav>

@@ -8,7 +8,7 @@ const headers = {
 
 class AuthService {
     login(user) {
-
+        
         let data = {
             "user": {
                 "email": user.email,
@@ -19,7 +19,7 @@ class AuthService {
         return axios.post(API_URL + '/users/login', JSON.stringify(data), { headers }).then(response => {
             
             if (response.data.user && response.data.user.token) {
-                window.localStorage.setItem('user', JSON.stringify(response.data))
+                window.localStorage.setItem('user', JSON.stringify(response.data.user))
                 //window.localStorage.setItem('access_token', JSON.stringify(response.data.user.token))
             }
 
