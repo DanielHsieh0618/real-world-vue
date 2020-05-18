@@ -91,7 +91,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
-import User from "../services/user.service"
+import {ArticlesService} from "../services/api.service"
 
 export default {
   name: "Home",
@@ -104,8 +104,8 @@ export default {
     }
   },
   mounted(){
-    User.getAllArticles().then(res=>{
-      console.log('res', res)
+    ArticlesService.get().then(res=>{
+      //console.log('res', res)
       this.articles = res.data.articles;
     }).catch(err=>{
       throw new Error('Error:', err)
