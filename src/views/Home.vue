@@ -68,14 +68,14 @@
               <p>Popular Tags</p>
 
               <div class="tag-list">
-                <a href class="tag-pill tag-default">programming</a>
-                <a href class="tag-pill tag-default">javascript</a>
+                <a v-for='tag of tags' :key='tag' href class="tag-pill tag-default">{{tag}}</a>
+                <!-- <a href class="tag-pill tag-default">javascript</a>
                 <a href class="tag-pill tag-default">emberjs</a>
                 <a href class="tag-pill tag-default">angularjs</a>
                 <a href class="tag-pill tag-default">react</a>
                 <a href class="tag-pill tag-default">mean</a>
                 <a href class="tag-pill tag-default">node</a>
-                <a href class="tag-pill tag-default">rails</a>
+                <a href class="tag-pill tag-default">rails</a> -->
               </div>
             </div>
           </div>
@@ -91,7 +91,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
-import {ArticlesService} from "../services/api.service"
+import {ArticlesService, TagsService} from "../services/api.service"
 
 export default {
   name: "Home",
@@ -100,13 +100,21 @@ export default {
   },
   data(){
     return{
-      articles:null
+      articles:null,
+      tags:null
     }
   },
   mounted(){
     ArticlesService.get().then(res=>{
       //console.log('res', res)
       this.articles = res.data.articles;
+    }).catch(err=>{
+      throw new Error('Error:', err)
+    })
+
+    TagsService.get().then(res=>{
+      console.log('res', res)
+      this.tags = res.data.tags;
     }).catch(err=>{
       throw new Error('Error:', err)
     })
