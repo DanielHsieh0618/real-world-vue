@@ -17,9 +17,10 @@ class AuthService {
         }
 
         return axios.post(API_URL + '/users/login', JSON.stringify(data), { headers }).then(response => {
-            if (response.data.accessToken) {
+            
+            if (response.data.user && response.data.user.token) {
                 window.localStorage.setItem('user', JSON.stringify(response.data))
-
+                //window.localStorage.setItem('access_token', JSON.stringify(response.data.user.token))
             }
 
             return response.data
@@ -28,6 +29,7 @@ class AuthService {
 
     logout() {
         window.localStorage.removeItem('user')
+        //window.localStorage.removeItem('access_token')
     }
 
     register(user) {

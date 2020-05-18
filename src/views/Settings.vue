@@ -31,7 +31,7 @@
             </fieldset>
           </form>
           <hr />
-          <button class="btn btn btn-danger pull-xs-left" @click="logout">Sign out</button>
+          <button class="btn btn btn-danger pull-xs-left" @click="onSignOutClick">Sign out</button>
         </div>
       </div>
     </div>
@@ -43,7 +43,11 @@ import { mapActions } from "vuex";
 
 export default {
   methods: {
-    ...mapActions("auth", ["logout"])
+    ...mapActions("auth", ["logout"]),
+    onSignOutClick(){
+      this.logout()
+      this.$router.push({name:'Home'})
+    }
   }
 };
 </script>

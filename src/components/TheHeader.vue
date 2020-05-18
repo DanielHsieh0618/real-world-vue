@@ -7,33 +7,34 @@
           <li class="nav-item">
             <router-link class="nav-link" active-class="active" :to="{name:'Home'}">Home</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if='isAuthenticated' class="nav-item">
             <router-link class="nav-link" active-class="active" :to="{name:'Editor'}">
               <i class="ion-compose"></i>&nbsp;New Post
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if='isAuthenticated' class="nav-item">
             <router-link class="nav-link" active-class="active" :to="{name:'Settings'}">
               <i class="ion-gear-a"></i>&nbsp;Settings
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" active-class="active" :to="{name:'Login'}">
-              <i class="ion-compose"></i>&nbsp;Sign in
-            </router-link>
-          </li>
-          <li class="nav-item">
+       
+          <li v-if='isAuthenticated' class="nav-item">
             <router-link class="nav-link" active-class="active" :to="{name:'Profile'}">
               <i class="ion-compose"></i>&nbsp;Profile
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if='!status.loggedIn'  class="nav-item">
+            <router-link class="nav-link" active-class="active" :to="{name:'Login'}">
+              <i class="ion-compose"></i>&nbsp;Sign in
+            </router-link>
+          </li>
+          <li v-if='!status.loggedIn' class="nav-item">
             <router-link class="nav-link" active-class="active" :to="{name:'Register'}">
               <i class="ion-compose"></i>&nbsp;Sign up
             </router-link>
           </li>
           <!-- <li>{{user}}</li> -->
-          <li>{{status}}</li>
+          <!-- <li>{{status}}</li> -->
         </ul>
       </div>
     </nav>
@@ -44,7 +45,10 @@
 import { mapActions, mapState } from "vuex";
 export default {
   computed: {
-    ...mapState("auth", ["user", "status"])
+    ...mapState("auth", ["user", "status"]),
+    isAuthenticated(){
+      return this.status.loggedIn
+    }
   },
   mathods: {
     ...mapActions(["auth/logout"])
