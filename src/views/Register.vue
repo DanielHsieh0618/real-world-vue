@@ -5,7 +5,6 @@
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Sign up</h1>
           <p class="text-xs-center">
-            <!-- <a href>Have an account?</a> -->
             <router-link :to="{name:'Login'}">Have an account?</router-link>
           </p>
 
@@ -13,9 +12,10 @@
             <!-- <li>That email is already taken</li> -->
             <li v-if="message">{{message}}</li>
           </ul>
-          <ul class='success-messages'>
-            <li v-if='isSuccess'>success</li>
-            </ul>
+          
+          <ul v-if="isSuccess" class='success-messages'>
+            <li >success</li>
+          </ul>
 
           <form @submit.prevent="handleSubmit">
             <fieldset class="form-group">
@@ -86,3 +86,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.success-messages{
+  color: #3d8b3d;
+    font-weight: 700;
+}
+</style>
