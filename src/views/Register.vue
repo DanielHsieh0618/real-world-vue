@@ -13,6 +13,9 @@
             <!-- <li>That email is already taken</li> -->
             <li v-if="message">{{message}}</li>
           </ul>
+          <ul class='success-messages'>
+            <li v-if='isSuccess'>success</li>
+            </ul>
 
           <form @submit.prevent="handleSubmit">
             <fieldset class="form-group">
@@ -55,7 +58,9 @@ export default {
   data() {
     return {
       user: new User("", "", ""),
-      message: ""
+      message: "",
+      loading:false,
+      isSuccess: false
     };
   },
   methods: {
@@ -65,7 +70,8 @@ export default {
       this.$store
         .dispatch("auth/register", this.user)
         .then(() => {
-          this.$router.push("/");
+          //this.$router.push("/");
+          this.isSuccess = true
         })
         .catch(error => {
           this.message =
