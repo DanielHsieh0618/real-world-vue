@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-page">
+  <div v-if='profile' class="profile-page">
     <div class="user-info">
       <div class="container">
         <div class="row">

@@ -30,8 +30,6 @@
               <button class="btn btn btn-primary pull-xs-right">Update Settings</button>
             </fieldset>
           </form>
-          <hr />
-          <button class="btn btn btn-danger pull-xs-left" @click="onSignOutClick">Sign out</button>
         </div>
       </div>
     </div>
@@ -39,15 +37,15 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 
 export default {
-  methods: {
-    ...mapActions("auth", ["logout"]),
-    onSignOutClick(){
-      this.logout()
-      this.$router.push({name:'Home'})
-    }
-  }
+  // methods: {
+  //   ...mapActions("auth", ["logout"]),
+  //   onSignOutClick(){
+  //     this.logout()
+  //     this.$router.push({name:'Home'})
+  //   }
+  // }
 };
 </script>

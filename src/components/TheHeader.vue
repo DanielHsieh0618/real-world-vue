@@ -33,7 +33,9 @@
               <i class="ion-compose"></i>&nbsp;Sign up
             </router-link>
           </li>
-        
+          <li v-if='status.loggedIn'  class="nav-item">
+              <button @click="signout" class="btn btn btn-danger pull-xs-left" >Sign out</button>
+          </li>
         </ul>
       </div>
     </nav>
@@ -49,8 +51,11 @@ export default {
       return this.status.loggedIn
     }
   },
-  mathods: {
-    ...mapActions(["auth/logout"])
+  methods: {
+    ...mapActions("auth", ["logout"]),
+    signout(){
+       this.logout()
+    }
   }
 };
 </script>

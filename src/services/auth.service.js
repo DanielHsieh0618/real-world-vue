@@ -31,7 +31,6 @@ class AuthService {
         let data = { user }
 
         return axios.post(API_URL + '/users', JSON.stringify(data), { headers }).then(response => {
-            debugger
             if (response.data.user && response.data.user.token) {
                 window.localStorage.setItem('user', JSON.stringify(response.data.user))
                 //window.localStorage.setItem('access_token', JSON.stringify(response.data.user.token))

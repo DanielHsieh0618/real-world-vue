@@ -1,5 +1,13 @@
 # real-world-vue
 
+## Technology
+
+- [ ] bootstrap-vue
+- [x] axios: 0.19.2
+- [x] vue: 2.6.11
+- [x] vue-router: 3.1.6 
+- [x] vuex: 3.1.3
+
 ## Project setup
 ```
 npm install
