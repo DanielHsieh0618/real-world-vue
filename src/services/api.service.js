@@ -8,45 +8,43 @@ class ApiService {
     constructor(){
         this.$axios = axios.create({
             baseURL:API_URL,
-            timeout: 1000,
-            headers: authHeader()
+            timeout: 1000
         })
     }
-
-    query(resource, params) {
-        return this.$axios.get(resource, params).catch(error => {
-          throw new Error(`[RWV] ApiService ${error}`);
-        });
-    }
     
-  get(resource, slug = "") {
-    return this.$axios.get(`${resource}/${slug}`).catch(error => {
+  get(resource, config) {
+    return this.$axios.get(`${resource}`, config).catch(error => {
       throw new Error(`[RWV] ApiService ${error}`);
     });
   }
 
-  post(resource, params) {
-    return this.$axios.post(`${resource}`, params);
+  post(resource, data , config) {
+    return this.$axios.post(`${resource}`, data ,config).catch(error => {
+      throw new Error(`[RWV] ApiService ${error}`);
+    })
   }
 
-  update(resource, slug, params) {
-    return this.$axios.put(`${resource}/${slug}`, params);
+  query(resource, params, config) {
+    return this.$axios.get(resource, {params , ...config }).catch(error => {
+      throw new Error(`[RWV] ApiService ${error}`);
+    });
+}
+
+  put(resource, data, config) {
+    return this.$axios.put(`${resource}`, data, config).catch(error => {
+      throw new Error(`[RWV] ApiService ${error}`);
+    })
   }
 
-  put(resource, params) {
-    return this.$axios.put(`${resource}`, params);
-  }
 
-  delete(resource) {
-    return this.$axios.delete(resource).catch(error => {
+  delete(resource, config) {
+    return this.$axios.delete(resource, config).catch(error => {
       throw new Error(`[RWV] ApiService ${error}`);
     })
   }
 
 }
-
 export default new ApiService();
-
 
 
 export const TagsService = {
@@ -55,17 +53,14 @@ export const TagsService = {
     }
   };
 
-
-
 export const ArticlesService = {
     get(slug) {
         return new ApiService().get('articles',slug)
     }
 }
 
-
 export const ProfileService = {
     get(username) {
-        return new ApiService().get(`profiles/${username}`)
+        return new ApiService().get(`profiles/${username}`, {headers: authHeader()})
     }
 }
