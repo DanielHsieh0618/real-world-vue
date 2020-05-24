@@ -60,6 +60,7 @@
 <script>
 import User from "@/models/user";
 import { UserService } from "@/services/auth.service";
+import {mapState} from 'vuex'
 
 export default {
   data() {
@@ -67,6 +68,11 @@ export default {
       user: new User({}),
       message: ""
     };
+  },
+  computed:{
+    ...mapState('auth',{
+      currentUser: state => state.user
+    })
   },
   methods: {
     async handleSubmit() {
@@ -82,12 +88,7 @@ export default {
   },
 
   async mounted() {
-    try {
-      let res = await UserService.get();
-      this.user = new User(res.data.user);
-    } catch (err) {
-      throw new Error(err);
-    }
+    this.user = new User(this.currentUser);
   }
 };
 </script>

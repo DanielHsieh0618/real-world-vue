@@ -52,6 +52,7 @@ export const UserService = {
     },
 
     update(user) {
-        return ApiService.put(`user`, user, { headers: authHeader() })
+        let data = { user }
+        return ApiService.put(`user`, JSON.stringify(data), { headers: {...authHeader(), 'Content-Type': 'application/json'}} )
     }
 }
