@@ -77,7 +77,6 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        console.log("user", this.user);
         await UserService.update(this.user);
         this.message = "完成更新";
       } catch (err) {
