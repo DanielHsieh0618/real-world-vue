@@ -25,6 +25,7 @@
               </fieldset>
               <fieldset class="form-group">
                 <textarea
+                  v-model="user.bio"
                   class="form-control form-control-lg"
                   rows="8"
                   placeholder="Short bio about you"
@@ -63,16 +64,18 @@ import { UserService } from "@/services/auth.service";
 export default {
   data() {
     return {
-      user: new User(),
+      user: new User({}),
       message: ""
     };
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       try {
-        UserService.update(this.user);
+        console.log("user", this.user);
+        await UserService.update(this.user);
         this.message = "完成更新";
       } catch (err) {
+        this.message = "更新失敗";
         throw new Error(err);
       }
     }
@@ -81,8 +84,7 @@ export default {
   async mounted() {
     try {
       let res = await UserService.get();
-      console.log("res", res);
-      this.user = res.data.user;
+      this.user = new User(res.data.user);
     } catch (err) {
       throw new Error(err);
     }

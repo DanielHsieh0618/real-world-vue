@@ -48,10 +48,10 @@ export default new AuthService();
 
 export const UserService = {
     async get() {
-        return await ApiService.get(`user/`, { headers: authHeader() })
+        return await ApiService.get(`user`, { headers: authHeader() })
     },
 
     update(user) {
-        return ApiService.put(`user/`, user, { headers: authHeader() })
+        return ApiService.put(`user`, user, { headers: authHeader() })
     }
 }

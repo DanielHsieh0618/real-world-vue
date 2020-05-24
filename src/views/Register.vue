@@ -12,9 +12,9 @@
             <!-- <li>That email is already taken</li> -->
             <li v-if="message">{{message}}</li>
           </ul>
-          
-          <ul v-if="isSuccess" class='success-messages'>
-            <li >success</li>
+
+          <ul v-if="isSuccess" class="success-messages">
+            <li>success</li>
           </ul>
 
           <form @submit.prevent="handleSubmit">
@@ -57,9 +57,9 @@ import User from "@/models/user";
 export default {
   data() {
     return {
-      user: new User("", "", ""),
+      user: new User({}),
       message: "",
-      loading:false,
+      loading: false,
       isSuccess: false
     };
   },
@@ -71,7 +71,7 @@ export default {
         .dispatch("auth/register", this.user)
         .then(() => {
           //this.$router.push("/");
-          this.isSuccess = true
+          this.isSuccess = true;
         })
         .catch(error => {
           this.message =
@@ -88,8 +88,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.success-messages{
+.success-messages {
   color: #3d8b3d;
-    font-weight: 700;
+  font-weight: 700;
 }
 </style>
