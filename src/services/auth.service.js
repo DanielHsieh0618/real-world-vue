@@ -1,5 +1,6 @@
 import axios from 'axios'
 import authHeader from './auth-header';
+import ApiService from '@/services/api.service'
 
 const AUTH_API_URL = "https://conduit.productionready.io/api"
 
@@ -46,11 +47,11 @@ class AuthService {
 export default new AuthService();
 
 export const UserService = {
-    get() {
-        return new axios().get(`user/`, { headers: authHeader() })
+    async get() {
+        return await ApiService.get(`user/`, { headers: authHeader() })
     },
 
     update(user) {
-        return new axios().put(`user/`, user, { headers: authHeader() })
+        return ApiService.put(`user/`, user, { headers: authHeader() })
     }
 }
