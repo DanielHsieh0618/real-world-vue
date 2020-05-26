@@ -48,17 +48,20 @@ export default new ApiService();
 
 
 export const TagsService = {
-  query() {
+  get() {
     return new ApiService().get("tags");
   }
 };
 
+
+
 export const ArticlesService = {
-  getList({ tag, author, favorited, limit, offset }) {
+  getList(queries) {
+    let { tag, author, favorited, limit, offset } = queries;
     return new ApiService().query('articles', { tag, author, favorited, limit, offset }, { headers: authHeader() })
   },
 
-  getFeed({ limit, offset }) {
+  getFeed({ limit  = 20, offset =0}) {
     return new ApiService().query('articles/feed', { limit, offset }, { headers: authHeader() })
   },
 
@@ -117,6 +120,8 @@ export const ArticlesService = {
   }
 
 }
+
+
 
 export const ProfileService = {
   get(username) {

@@ -34,7 +34,7 @@
           <div class="article-preview">
             <div class="article-meta">
               <a href>
-                <img src="http://i.imgur.com/Qr71crq.jpg" />
+                <img :src="profile.image" />
               </a>
               <div class="info">
                 <a href class="author">{{profile.username}}</a>
