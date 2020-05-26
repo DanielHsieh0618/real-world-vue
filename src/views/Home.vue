@@ -20,13 +20,14 @@
 									<a
 										class="nav-link active"
 										href
-									>Global Feed {{$route.hash}}</a>
+									>Global Feed
+										{{ this.queries.tag ? `#${this.queries.tag}` : `` }}</a>
 								</li>
 							</ul>
 						</div>
 
 						<div
-							v-for="article  of articles"
+							v-for="article of articles"
 							:key="article.createdAt"
 							class="article-preview"
 						>
@@ -38,43 +39,26 @@
 									<a
 										href
 										class="author"
-									>{{article.author.username}}</a>
-									<span class="date">{{new Date(article.createdAt).toLocaleString()}}</span>
+									>{{ article.author.username }}</a>
+									<span class="date">{{
+										new Date(article.createdAt).toLocaleString()
+									}}</span>
 								</div>
 								<button class="btn btn-outline-primary btn-sm pull-xs-right">
 									<i class="ion-heart"></i>
-									{{article.favoritesCount}}
+									{{ article.favoritesCount }}
 								</button>
 							</div>
 							<a
 								href
 								class="preview-link"
 							>
-								<h1>{{article.title}}</h1>
-								<p>{{article.description}}</p>
+								<h1>{{ article.title }}</h1>
+								<p>{{ article.description }}</p>
 								<span>Read more...</span>
 							</a>
 						</div>
-						{{articlesCount}}
-						<!-- <div class="article-preview">
-              <div class="article-meta">
-                <a href="profile.html">
-                  <img src="http://i.imgur.com/N4VcUeJ.jpg" />
-                </a>
-                <div class="info">
-                  <a href class="author">Albert Pai</a>
-                  <span class="date">January 20th</span>
-                </div>
-                <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i class="ion-heart"></i> 32
-                </button>
-              </div>
-              <a href class="preview-link">
-                <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
-                <p>This is the description for the post.</p>
-                <span>Read more...</span>
-              </a>
-            </div>-->
+						{{ articlesCount }}
 					</div>
 
 					<div class="col-md-3">
@@ -84,27 +68,18 @@
 							<div class="tag-list">
 								<a
 									v-for="tag of tags"
-									:href="`#${tag}`"
+									:href="`#tag/#${tag}`"
 									:key="tag"
 									class="tag-pill tag-default"
-									:class="{'tag-primary':isTagActive(tag)}"
-									@click='onTagClick(tag)'
-								>{{tag}}</a>
-								<!-- <a href class="tag-pill tag-default">javascript</a>
-                <a href class="tag-pill tag-default">emberjs</a>
-                <a href class="tag-pill tag-default">angularjs</a>
-                <a href class="tag-pill tag-default">react</a>
-                <a href class="tag-pill tag-default">mean</a>
-                <a href class="tag-pill tag-default">node</a>
-                <a href class="tag-pill tag-default">rails</a>-->
-
+									:class="{ 'tag-primary': isTagActive(tag) }"
+									@click="onTagClick(tag)"
+								>{{ tag }}</a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 </template>
 
