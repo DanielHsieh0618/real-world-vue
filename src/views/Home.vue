@@ -157,7 +157,6 @@
 
 			TagsService.get()
 				.then(res => {
-					console.log("res", res);
 					this.tags = res.data.tags;
 				})
 				.catch(err => {
