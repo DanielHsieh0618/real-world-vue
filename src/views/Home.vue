@@ -14,14 +14,13 @@
 						<div class="feed-toggle">
 							<ul class="nav nav-pills outline-active">
 								<!-- <li class="nav-item">
-                  <a class="nav-link disabled" href>Your Feed</a>
-                </li>-->
+									<a class="nav-link disabled" href>Your Feed</a>
+								</li>-->
 								<li class="nav-item">
 									<a
 										class="nav-link active"
 										href
-									>Global Feed
-										{{ this.queries.tag ? `#${this.queries.tag}` : `` }}</a>
+									>Global Feed {{tagLabel}}</a>
 								</li>
 							</ul>
 						</div>
@@ -72,7 +71,7 @@
 									:key="tag"
 									class="tag-pill tag-default"
 									:class="{ 'tag-primary': isTagActive(tag) }"
-									@click="onTagClick(tag)"
+									@click="onClickTag(tag)"
 								>{{ tag }}</a>
 							</div>
 						</div>
@@ -107,12 +106,16 @@
 				}
 			};
 		},
-		computed: {},
+		computed: {
+			tagLabel() {
+				return this.queries["tag"] ? `#${this.queries.tag}` : ``;
+			}
+		},
 		methods: {
 			isTagActive(tag) {
 				return this.queries.tag === tag;
 			},
-			onTagClick(currentTag) {
+			onClickTag(currentTag) {
 				this.queries.tag = currentTag;
 
 				this.getArticles();
