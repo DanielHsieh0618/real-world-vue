@@ -20,7 +20,7 @@
 									<a
 										class="nav-link active"
 										href
-									>Global Feed {{queries.tag?`  (${queries.tag})`:``}}</a>
+									>Global Feed {{$route.hash}}</a>
 								</li>
 							</ul>
 						</div>
@@ -82,13 +82,14 @@
 							<p>Popular Tags</p>
 
 							<div class="tag-list">
-								<button
+								<a
 									v-for="tag of tags"
+									:href="`#${tag}`"
 									:key="tag"
 									class="tag-pill tag-default"
 									:class="{'tag-primary':isTagActive(tag)}"
 									@click='onTagClick(tag)'
-								>{{tag}}</button>
+								>{{tag}}</a>
 								<!-- <a href class="tag-pill tag-default">javascript</a>
                 <a href class="tag-pill tag-default">emberjs</a>
                 <a href class="tag-pill tag-default">angularjs</a>
