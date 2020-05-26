@@ -15,14 +15,14 @@
               <ul class="nav nav-pills outline-active">
                 <!-- <li class="nav-item">
                   <a class="nav-link disabled" href>Your Feed</a>
-                </li> -->
+                </li>-->
                 <li class="nav-item">
                   <a class="nav-link active" href>Global Feed</a>
                 </li>
               </ul>
             </div>
 
-            <div v-for='article  of articles'  :key='article.createdAt' class="article-preview">
+            <div v-for="article  of articles" :key="article.createdAt" class="article-preview">
               <div class="article-meta">
                 <a href="profile.html">
                   <img :src="article.author.image" />
@@ -32,7 +32,8 @@
                   <span class="date">{{new Date(article.createdAt).toLocaleString()}}</span>
                 </div>
                 <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i class="ion-heart"></i> {{article.favoritesCount}}
+                  <i class="ion-heart"></i>
+                  {{article.favoritesCount}}
                 </button>
               </div>
               <a href class="preview-link">
@@ -60,7 +61,7 @@
                 <p>This is the description for the post.</p>
                 <span>Read more...</span>
               </a>
-            </div> -->
+            </div>-->
           </div>
 
           <div class="col-md-3">
@@ -68,14 +69,14 @@
               <p>Popular Tags</p>
 
               <div class="tag-list">
-                <a v-for='tag of tags' :key='tag' href class="tag-pill tag-default">{{tag}}</a>
+                <a v-for="tag of tags" :key="tag" href class="tag-pill tag-default">{{tag}}</a>
                 <!-- <a href class="tag-pill tag-default">javascript</a>
                 <a href class="tag-pill tag-default">emberjs</a>
                 <a href class="tag-pill tag-default">angularjs</a>
                 <a href class="tag-pill tag-default">react</a>
                 <a href class="tag-pill tag-default">mean</a>
                 <a href class="tag-pill tag-default">node</a>
-                <a href class="tag-pill tag-default">rails</a> -->
+                <a href class="tag-pill tag-default">rails</a>-->
               </div>
             </div>
           </div>
@@ -91,33 +92,37 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
-import {ArticlesService, TagsService} from "../services/api.service"
+import { ArticlesService, TagsService } from "../services/api.service";
 
 export default {
   name: "Home",
   components: {
     // HelloWorld
   },
-  data(){
-    return{
-      articles:null,
-      tags:null
-    }
+  data() {
+    return {
+      articles: null,
+      tags: null
+    };
   },
-  mounted(){
-    ArticlesService.get().then(res=>{
-      //console.log('res', res)
-      this.articles = res.data.articles;
-    }).catch(err=>{
-      throw new Error('Error:', err)
-    })
+  mounted() {
+    ArticlesService.getList()
+      .then(res => {
+        //console.log('res', res)
+        this.articles = res.data.articles;
+      })
+      .catch(err => {
+        throw new Error(`[ERROR_ARTICLE_GET] ${err}`);
+      });
 
-    TagsService.get().then(res=>{
-      // console.log('res', res)
-      this.tags = res.data.tags;
-    }).catch(err=>{
-      throw new Error('Error:', err)
-    })
+    TagsService.get()
+      .then(res => {
+        // console.log('res', res)
+        this.tags = res.data.tags;
+      })
+      .catch(err => {
+        throw new Error(`[ERROR_TAGS_GET ${err}]`);
+      });
   }
 };
 </script>
