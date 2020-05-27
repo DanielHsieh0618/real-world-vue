@@ -11,6 +11,32 @@
 			<div class="container page">
 				<div class="row">
 					<div class="col-md-9">
+						<div class='list-tool'>
+							<ol class='pagination pagination-custom'>
+								<li
+									v-for='n of totalPage'
+									class='page-item'
+									:class="{'active':currentPage===n}"
+									:key='n'
+									@click="onClickPageButton(n)"
+								>
+									<button class='page-link'>{{n}}</button>
+								</li>
+							</ol>
+							<div class='itemsPerPage-group'>
+								item per page
+								<div class='btn-group btn-group-sm"'>
+									<button
+										v-for='(itemsCount,idx) of itemsPerPage'
+										:key="itemsCount+'-'+idx"
+										class="btn btn-primary"
+										:class="{'active':queries.limit===itemsCount}"
+										@click='onClickItemCount(itemsCount)'
+									>{{itemsCount}}</button>
+								</div>
+							</div>
+
+						</div>
 						<div class="feed-toggle">
 							<ul class="nav nav-pills outline-active">
 								<!-- <li class="nav-item">
@@ -57,7 +83,7 @@
 								<span>Read more...</span>
 							</a>
 						</div>
-						{{ articlesCount }}
+
 					</div>
 
 					<div class="col-md-3">
@@ -95,20 +121,27 @@
 		data() {
 			return {
 				articles: null,
-				articlesCount: null,
+				articlesCount: 0,
 				tags: null,
 				queries: {
 					favorited: null,
 					author: null,
 					tag: null,
-					limit: 5,
+					limit: 20,
 					offset: 0
-				}
+				},
+				itemsPerPage: [5, 10, 15, 20]
 			};
 		},
 		computed: {
 			tagLabel() {
 				return this.queries["tag"] ? `#${this.queries.tag}` : ``;
+			},
+			totalPage() {
+				return Math.round(this.articlesCount / this.queries.limit);
+			},
+			currentPage() {
+				return this.queries.offset / this.queries.limit + 1;
 			}
 		},
 		methods: {
@@ -129,6 +162,14 @@
 					.catch(err => {
 						throw new Error(`[ERROR_ARTICLE_GET] ${err}`);
 					});
+			},
+			onClickPageButton(n) {
+				this.queries.offset = this.queries.limit * (n - 1);
+				this.getArticles();
+			},
+			onClickItemCount(itemsCount) {
+				this.queries.limit = itemsCount;
+				this.getArticles();
 			}
 		},
 		mounted() {
@@ -144,3 +185,22 @@
 		}
 	};
 </script>
+
+
+<style>
+	.list-tool {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.pagination-custom {
+		max-width: calc(100% - 240px);
+		display: inline-flex;
+		overflow: auto;
+	}
+
+	.itemsPerPage-group {
+		width: 200px;
+	}
+</style>
