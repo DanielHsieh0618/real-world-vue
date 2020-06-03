@@ -12,17 +12,6 @@
         <div class="row">
           <div class="col-md-9">
             <div class="list-tool">
-              <ol class="pagination pagination-custom">
-                <li
-                  v-for="n of totalPage"
-                  class="page-item"
-                  :class="{'active':currentPage===n}"
-                  :key="n"
-                  @click="onClickPageButton(n)"
-                >
-                  <button class="page-link">{{n}}</button>
-                </li>
-              </ol>
               <div class="itemsPerPage-group">
                 item per page
                 <div class="btn-group btn-group-sm">
@@ -65,12 +54,23 @@
                   {{ article.favoritesCount }}
                 </button>
               </div>
-              <a href class="preview-link">
+              <router-link class="preview-link" :to="{name:'Article',params:{slug:article.slug}}">
                 <h1>{{ article.title }}</h1>
                 <p>{{ article.description }}</p>
                 <span>Read more...</span>
-              </a>
+              </router-link>
             </div>
+            <ol class="pagination pagination-custom">
+              <li
+                v-for="n of totalPage"
+                class="page-item"
+                :class="{'active':currentPage===n}"
+                :key="n"
+                @click="onClickPageButton(n)"
+              >
+                <button class="page-link">{{n}}</button>
+              </li>
+            </ol>
           </div>
 
           <div class="col-md-3">
