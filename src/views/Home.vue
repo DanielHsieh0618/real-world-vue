@@ -9,84 +9,78 @@
       </div>
 
       <div class="container page">
+        <div class="overflow-auto">
+
+        </div>
         <div class="row">
           <div class="col-md-9">
+
+            <div class="feed-toggle">
+              <ul class="nav nav-pills outline-active">
+                <li class="nav-item">
+                  <router-link
+                    class='nav-link'
+                    :to="{name:'Home'}"
+                    exact
+                    active-class="active"
+                  >Global Feed</router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link
+                    v-show='query.tag'
+                    class='nav-link'
+                    :to="{name:'Home',query:{tag :query.tag}}"
+                    active-class="active"
+                  >{{'#'+query.tag}}</router-link>
+                </li>
+                <!-- <li class="nav-item">
+                  <a
+                    class="nav-link disabled"
+                    href
+                  >Your Feed</a>
+                </li> -->
+              </ul>
+            </div>
+
+            <div
+              id='articles'
+              v-for="article of articles"
+              :key="article.createdAt"
+              class="article-preview"
+            >
+              <ArticlePreview :article="article"></ArticlePreview>
+            </div>
+
             <div class="list-tool">
-              <div class="itemsPerPage-group">
-                item per page
+              <b-pagination-nav
+                v-model="currentPage"
+                :number-of-pages="totalPage"
+                use-router
+                :link-gen="linkGen"
+              ></b-pagination-nav>
+              <div>
+                items per page
                 <div class="btn-group btn-group-sm">
                   <button
                     v-for="(itemsCount,idx) of itemsPerPage"
                     :key="itemsCount+'-'+idx"
                     class="btn btn-primary"
-                    :class="{'active':queries.limit===itemsCount}"
+                    :class="{'active':query.limit===itemsCount}"
                     @click="onClickItemCount(itemsCount)"
                   >{{itemsCount}}</button>
                 </div>
               </div>
-            </div>
-            <div class="feed-toggle">
-              <ul class="nav nav-pills outline-active">
-                <!-- <li class="nav-item">
-									<a class="nav-link disabled" href>Your Feed</a>
-                </li>-->
-                <li class="nav-item">
-                  <a class="nav-link active" href>Global Feed {{tagLabel}}</a>
-                </li>
-              </ul>
-            </div>
 
-            <div v-for="article of articles" :key="article.createdAt" class="article-preview">
-              <div class="article-meta">
-                <a href="profile.html">
-                  <img :src="article.author.image" />
-                </a>
-                <div class="info">
-                  <a href class="author">{{ article.author.username }}</a>
-                  <span class="date">
-                    {{
-                    new Date(article.createdAt).toLocaleString()
-                    }}
-                  </span>
-                </div>
-                <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i class="ion-heart"></i>
-                  {{ article.favoritesCount }}
-                </button>
-              </div>
-              <router-link class="preview-link" :to="{name:'Article',params:{slug:article.slug}}">
-                <h1>{{ article.title }}</h1>
-                <p>{{ article.description }}</p>
-                <span>Read more...</span>
-              </router-link>
             </div>
-            <ol class="pagination pagination-custom">
-              <li
-                v-for="n of totalPage"
-                class="page-item"
-                :class="{'active':currentPage===n}"
-                :key="n"
-                @click="onClickPageButton(n)"
-              >
-                <button class="page-link">{{n}}</button>
-              </li>
-            </ol>
           </div>
 
           <div class="col-md-3">
             <div class="sidebar">
-              <p>Popular Tags</p>
+              <TheTags
+                :tags='tags'
+                :query.sync='query'
+              ></TheTags>
 
-              <div class="tag-list">
-                <a
-                  v-for="tag of tags"
-                  :href="`#tag/#${tag}`"
-                  :key="tag"
-                  class="tag-pill tag-default"
-                  :class="{ 'tag-primary': isTagActive(tag) }"
-                  @click="onClickTag(tag)"
-                >{{ tag }}</a>
-              </div>
             </div>
           </div>
         </div>
@@ -97,20 +91,22 @@
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
+import ArticlePreview from "@/components/ArticlePreview.vue";
+import TheTags from "@/components/TheTags.vue";
 import { ArticlesService, TagsService } from "../services/api.service";
 
 export default {
   name: "Home",
   components: {
-    // HelloWorld
+    TheTags,
+    ArticlePreview
   },
   data() {
     return {
       articles: null,
       articlesCount: 0,
       tags: null,
-      queries: {
+      query: {
         favorited: null,
         author: null,
         tag: null,
@@ -121,27 +117,22 @@ export default {
     };
   },
   computed: {
-    tagLabel() {
-      return this.queries["tag"] ? `#${this.queries.tag}` : ``;
-    },
     totalPage() {
-      return Math.round(this.articlesCount / this.queries.limit);
+      let pages = Math.round(this.articlesCount / this.query.limit);
+      return pages === 0 ? 1 : pages;
     },
-    currentPage() {
-      return this.queries.offset / this.queries.limit + 1;
+    currentPage: {
+      get() {
+        return this.query.offset / this.query.limit + 1;
+      },
+      set(val) {
+        this.query.offset = (val - 1) * this.query.limit;
+      }
     }
   },
   methods: {
-    isTagActive(tag) {
-      return this.queries.tag === tag;
-    },
-    onClickTag(currentTag) {
-      this.queries.tag = currentTag;
-
-      this.getArticles();
-    },
     getArticles() {
-      ArticlesService.getList(this.queries)
+      ArticlesService.getList(this.query)
         .then(res => {
           this.articles = res.data.articles;
           this.articlesCount = res.data.articlesCount;
@@ -151,17 +142,18 @@ export default {
         });
     },
     onClickPageButton(n) {
-      this.queries.offset = this.queries.limit * (n - 1);
+      this.query.offset = this.query.limit * (n - 1);
       this.getArticles();
     },
     onClickItemCount(itemsCount) {
-      this.queries.limit = itemsCount;
+      this.query.limit = itemsCount;
       this.getArticles();
+    },
+    linkGen() {
+      return;
     }
   },
   mounted() {
-    this.getArticles();
-
     TagsService.get()
       .then(res => {
         this.tags = res.data.tags;
@@ -169,6 +161,19 @@ export default {
       .catch(err => {
         throw new Error(`[ERROR_TAGS_GET ${err}]`);
       });
+  },
+  watch: {
+    "$route.query.tag"(tag) {
+      this.query.tag = tag;
+      this.getArticles();
+    },
+    query: {
+      immediate: true,
+      handler: function() {
+        this.getArticles();
+      },
+      deep: true
+    }
   }
 };
 </script>
@@ -179,15 +184,5 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.pagination-custom {
-  max-width: calc(100% - 240px);
-  display: inline-flex;
-  overflow: auto;
-}
-
-.itemsPerPage-group {
-  width: 200px;
 }
 </style>
