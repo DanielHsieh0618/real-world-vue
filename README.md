@@ -7,7 +7,7 @@
 - [ ] e2e test: nightwatch
 - [ ] vue-i18n
 - [ ] tailwind
-- [ ] bootstrap-vue
+- [X] bootstrap-vue
 - [x] axios: 0.19.2
 - [x] vue: 2.6.11
 - [x] vue-router: 3.1.6 
