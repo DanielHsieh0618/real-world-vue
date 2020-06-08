@@ -35,33 +35,36 @@
                 </li>
               </ul>
             </div>
-            <router-view :articles="articles"></router-view>
-            <!-- <div
+            <div v-if="loading">loading...</div>
+            <div v-else>
+              <router-view :articles="articles"></router-view>
+              <!-- <div
               id="articles"
               v-for="article of articles"
               :key="article.createdAt"
               class="article-preview"
             >
               <ArticlePreview :article="article"></ArticlePreview>
-            </div>-->
+              </div>-->
 
-            <div class="list-tool">
-              <b-pagination-nav
-                v-model="currentPage"
-                :number-of-pages="totalPage"
-                use-router
-                :link-gen="linkGen"
-              ></b-pagination-nav>
-              <div>
-                items per page
-                <div class="btn-group btn-group-sm">
-                  <button
-                    v-for="(itemsCount,idx) of itemsPerPage"
-                    :key="itemsCount+'-'+idx"
-                    class="btn btn-primary"
-                    :class="{'active':query.limit===itemsCount}"
-                    @click="onClickItemCount(itemsCount)"
-                  >{{itemsCount}}</button>
+              <div class="list-tool">
+                <b-pagination-nav
+                  v-model="currentPage"
+                  :number-of-pages="totalPage"
+                  use-router
+                  :link-gen="linkGen"
+                ></b-pagination-nav>
+                <div>
+                  items per page
+                  <div class="btn-group btn-group-sm">
+                    <button
+                      v-for="(itemsCount,idx) of itemsPerPage"
+                      :key="itemsCount+'-'+idx"
+                      class="btn btn-primary"
+                      :class="{'active':query.limit===itemsCount}"
+                      @click="onClickItemCount(itemsCount)"
+                    >{{itemsCount}}</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -102,7 +105,8 @@ export default {
         limit: 20,
         offset: 0
       },
-      itemsPerPage: [5, 10, 15, 20]
+      itemsPerPage: [5, 10, 15, 20],
+      loading: false
     };
   },
   computed: {
@@ -122,6 +126,7 @@ export default {
   },
   methods: {
     getArticles() {
+      this.loading = true;
       ArticlesService.getList(this.query)
         .then(res => {
           this.articles = res.data.articles;
@@ -129,6 +134,9 @@ export default {
         })
         .catch(err => {
           throw new Error(`[ERROR_ARTICLE_GET] ${err}`);
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     onClickPageButton(n) {
