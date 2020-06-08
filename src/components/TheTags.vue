@@ -8,7 +8,7 @@
         :key="tag"
         class="tag-pill tag-default"
         active-class="tag-primary"
-        :to="{name:'Home',query:{tag:tag}}"
+        :to="{name:'HomeTag',query:{tag:tag}}"
         exact
       >{{ tag }}
       </router-link>

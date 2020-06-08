@@ -12,10 +12,18 @@
         <div class="overflow-auto"></div>
         <div class="row">
           <div class="col-md-9">
+            <!--tab navs-->
             <div class="feed-toggle">
               <ul class="nav nav-pills outline-active">
-                <li v-show="isLoggedIn" class="nav-item">
-                  <a class="nav-link" href>Your Feed</a>
+                <li
+                  v-show="isLoggedIn"
+                  class="nav-item"
+                >
+                  <router-link
+                    class="nav-link"
+                    active-class="active"
+                    :to="{name:'HomeFeed'}"
+                  >Your Feed</router-link>
                 </li>
                 <li class="nav-item">
                   <router-link
@@ -29,12 +37,13 @@
                   <router-link
                     v-show="query.tag"
                     class="nav-link"
-                    :to="{name:'Home',query:{tag :query.tag}}"
+                    :to="{name:'HomeTag',query:{tag :query.tag}}"
                     active-class="active"
                   >{{'#'+query.tag}}</router-link>
                 </li>
               </ul>
             </div>
+            <!--tabs-->
             <div v-if="loading">loading...</div>
             <div v-else>
               <router-view :articles="articles"></router-view>
@@ -72,7 +81,10 @@
 
           <div class="col-md-3">
             <div class="sidebar">
-              <TheTags :tags="tags" :query.sync="query"></TheTags>
+              <TheTags
+                :tags="tags"
+                :query.sync="query"
+              ></TheTags>
             </div>
           </div>
         </div>

@@ -24,7 +24,18 @@
     >
       <h1>{{ article.title }}</h1>
       <p>{{ article.description }}</p>
+
+      <div>
+        <span
+          v-for="tag of article.tagList"
+          :key="tag"
+          class="tag-pill tag-default"
+          :class="{'tag-primary':$route.query.tag===tag}"
+        >{{tag}}
+        </span>
+      </div>
       <span>Read more...</span>
+
     </router-link>
   </div>
 
