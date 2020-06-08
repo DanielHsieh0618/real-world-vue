@@ -60,7 +60,7 @@
 <script>
 import User from "@/models/user";
 import { UserService } from "@/services/auth.service";
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -69,8 +69,8 @@ export default {
       message: ""
     };
   },
-  computed:{
-    ...mapState('auth',{
+  computed: {
+    ...mapState("auth", {
       currentUser: state => state.user
     })
   },

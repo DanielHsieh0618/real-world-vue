@@ -13,8 +13,14 @@ Vue.use(VueRouter)
 
 const routes = [{
     path: '/',
-    name: 'Home',
-    component: Home
+    component: Home,
+    children: [
+        {
+            path: "",
+            name: "Home",
+            component: () => import("@/views/HomeGlobal")
+        }
+    ]
 },
 {
     path: '/tag',

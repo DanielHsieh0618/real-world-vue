@@ -27,7 +27,7 @@ export const auth = {
         register({ commit }, user) {
             return AuthService.register(user)
                 .then(response => {
-                    commit('registerSuccess',response );
+                    commit('registerSuccess', response);
                     return Promise.resolve(response);
                 })
                 .catch(error => {
@@ -55,6 +55,11 @@ export const auth = {
         },
         registerFailure(state) {
             state.status.loggedIn = false;
+        }
+    },
+    getters: {
+        isLoggedIn: state => {
+            return state.status.loggedIn;
         }
     }
 }
