@@ -8,7 +8,7 @@
         :key="tag"
         class="tag-pill tag-default"
         active-class="tag-primary"
-        :to="{name:'HomeTag',query:{tag:tag}}"
+        :to="{name:'HomeTag',query:{tag}}"
         exact
       >{{ tag }}
       </router-link>
@@ -24,6 +24,9 @@ export default {
     tags: {
       Type: "Array",
       required: true
+    },
+    tag: {
+      Type: String
     }
   }
 };

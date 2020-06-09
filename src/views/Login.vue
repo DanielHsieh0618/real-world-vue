@@ -9,7 +9,10 @@
             <router-link :to="{name:'Register'}">Need an account?</router-link>
           </p>
           <!--validation sections-->
-          <ul v-if="message" class="error-messages">
+          <ul
+            v-if="message"
+            class="error-messages"
+          >
             <li>{{message}}</li>
             <!-- <li>That email is already taken</li> -->
           </ul>
@@ -74,7 +77,7 @@ export default {
         this.$store
           .dispatch("auth/login", this.user)
           .then(() => {
-            this.$router.push("/");
+            this.$router.push({ name: "HomeFeed" });
           })
           .catch(error => {
             this.loading = false;

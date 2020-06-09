@@ -1,24 +1,14 @@
 <template>
   <div id="articles">
-    <ArticlePreview
-      v-for="article of articles"
-      :key="article.createdAt"
-      class="article-preview"
-      :article="article"
-    ></ArticlePreview>
+    <ArticleList></ArticleList>
   </div>
 </template>
 
 <script>
-import ArticlePreview from "@/components/ArticlePreview.vue";
+import ArticleList from "@/components/ArticleList.vue";
 export default {
   components: {
-    ArticlePreview
-  },
-  props: {
-    articles: {
-      Type: Array
-    }
+    ArticleList
   }
 };
 </script>

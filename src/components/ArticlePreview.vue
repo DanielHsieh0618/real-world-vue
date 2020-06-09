@@ -1,14 +1,17 @@
 <template>
   <div>
+
     <div class="article-meta">
-      <a href="profile.html">
-        <img :src="article.author.image" />
-      </a>
+      <b-avatar
+        :src='article.author.image'
+        :to="{name:'Profile', params:{username:article.author.username}}"
+      ></b-avatar>
       <div class="info">
-        <a
-          href
+        <b-link
           class="author"
-        >{{ article.author.username }}</a>
+          :to="{name:'Profile', params:{username:article.author.username}}"
+        >{{ article.author.username }}</b-link>
+
         <span class="date">
           {{new Date(article.createdAt).toLocaleString() }}
         </span>
@@ -25,17 +28,16 @@
       <h1>{{ article.title }}</h1>
       <p>{{ article.description }}</p>
 
-      <div>
-        <span
+      <span>Read more...</span>
+      <ul class="tag-list">
+        <li
           v-for="tag of article.tagList"
           :key="tag"
-          class="tag-pill tag-default"
-          :class="{'tag-primary':$route.query.tag===tag}"
-        >{{tag}}
-        </span>
-      </div>
-      <span>Read more...</span>
-
+          class="tag-default tag-pill tag-outline"
+        >
+          {{tag}}
+        </li>
+      </ul>
     </router-link>
   </div>
 

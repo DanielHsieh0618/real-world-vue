@@ -35,56 +35,22 @@
                 </li>
                 <li class="nav-item">
                   <router-link
-                    v-show="query.tag"
+                    v-show="tag"
                     class="nav-link"
-                    :to="{name:'HomeTag',query:{tag :query.tag}}"
+                    :to="{name:'HomeTag',query:{tag}}"
                     active-class="active"
-                  >{{'#'+query.tag}}</router-link>
+                  >{{'#'+ tag}}</router-link>
                 </li>
               </ul>
             </div>
             <!--tabs-->
-            <div v-if="loading">loading...</div>
-            <div v-else>
-              <router-view :articles="articles"></router-view>
-              <!-- <div
-              id="articles"
-              v-for="article of articles"
-              :key="article.createdAt"
-              class="article-preview"
-            >
-              <ArticlePreview :article="article"></ArticlePreview>
-              </div>-->
+            <router-view></router-view>
 
-              <div class="list-tool">
-                <b-pagination-nav
-                  v-model="currentPage"
-                  :number-of-pages="totalPage"
-                  use-router
-                  :link-gen="linkGen"
-                ></b-pagination-nav>
-                <div>
-                  items per page
-                  <div class="btn-group btn-group-sm">
-                    <button
-                      v-for="(itemsCount,idx) of itemsPerPage"
-                      :key="itemsCount+'-'+idx"
-                      class="btn btn-primary"
-                      :class="{'active':query.limit===itemsCount}"
-                      @click="onClickItemCount(itemsCount)"
-                    >{{itemsCount}}</button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div class="col-md-3">
             <div class="sidebar">
-              <TheTags
-                :tags="tags"
-                :query.sync="query"
-              ></TheTags>
+              <TheTags :tags="tags"></TheTags>
             </div>
           </div>
         </div>
@@ -96,7 +62,7 @@
 <script>
 // @ is an alias to /src
 import TheTags from "@/components/TheTags.vue";
-import { ArticlesService, TagsService } from "../services/api.service";
+import { TagsService } from "../services/api.service";
 import { mapGetters } from "vuex";
 
 //isLoggedIn
@@ -107,61 +73,14 @@ export default {
   },
   data() {
     return {
-      articles: [],
-      articlesCount: 0,
-      tags: null,
-      query: {
-        favorited: null,
-        author: null,
-        tag: null,
-        limit: 20,
-        offset: 0
-      },
-      itemsPerPage: [5, 10, 15, 20],
-      loading: false
+      tags: null
     };
   },
   computed: {
-    totalPage() {
-      let pages = Math.round(this.articlesCount / this.query.limit);
-      return pages === 0 ? 1 : pages;
-    },
-    currentPage: {
-      get() {
-        return this.query.offset / this.query.limit + 1;
-      },
-      set(val) {
-        this.query.offset = (val - 1) * this.query.limit;
-      }
+    tag() {
+      return this.$route.query.tag;
     },
     ...mapGetters("auth", ["isLoggedIn"])
-  },
-  methods: {
-    getArticles() {
-      this.loading = true;
-      ArticlesService.getList(this.query)
-        .then(res => {
-          this.articles = res.data.articles;
-          this.articlesCount = res.data.articlesCount;
-        })
-        .catch(err => {
-          throw new Error(`[ERROR_ARTICLE_GET] ${err}`);
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-    onClickPageButton(n) {
-      this.query.offset = this.query.limit * (n - 1);
-      this.getArticles();
-    },
-    onClickItemCount(itemsCount) {
-      this.query.limit = itemsCount;
-      this.getArticles();
-    },
-    linkGen() {
-      return;
-    }
   },
   mounted() {
     TagsService.get()
@@ -171,19 +90,6 @@ export default {
       .catch(err => {
         throw new Error(`[ERROR_TAGS_GET ${err}]`);
       });
-  },
-  watch: {
-    "$route.query.tag"(tag) {
-      this.query.tag = tag;
-      this.getArticles();
-    },
-    query: {
-      immediate: true,
-      handler: function() {
-        this.getArticles();
-      },
-      deep: true
-    }
   }
 };
 </script>

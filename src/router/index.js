@@ -57,9 +57,20 @@ const routes = [{
     component: Register
 },
 {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile
+    path: '/profile/:username',
+    component: Profile,
+    children: [
+        {
+            path: '',
+            name: 'Profile',
+            component: () => import("@/views/ProfileMine.vue")
+        },
+        {
+            path: 'favorited',
+            name: 'ProfileFavorited',
+            component: () => import("@/views/ProfileFavorited.vue")
+        }
+    ]
 },
 {
     path: '/settings',

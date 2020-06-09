@@ -1,8 +1,7 @@
 <template>
-  <div id="articles">
-    <p v-if='loading'> loading...</p>
+  <div v-if="loading">loading...</div>
+  <div v-else>
     <ArticlePreview
-      v-else
       v-for="article of articles"
       :key="article.createdAt"
       class="article-preview"
@@ -30,13 +29,14 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
-import ArticlePreview from "@/components/ArticlePreview.vue";
 import { ArticlesService } from "../services/api.service";
-
+import ArticlePreview from "@/components/ArticlePreview.vue";
 export default {
+  props: ["tag", "author", "favorited", "itemsPerPage"],
   components: {
     ArticlePreview
   },
@@ -52,49 +52,65 @@ export default {
       set(val) {
         this.query.offset = (val - 1) * this.query.limit;
       }
+    },
+    listConfig() {
+      let params = this.query;
+      if (this.author) {
+        params.author = this.author;
+      }
+      if (this.tag) {
+        params.tag = this.tag;
+      }
+      if (this.favorited) {
+        params.favorited = this.favorited;
+      }
+      if (this.itemsPerPage) {
+        params.limit = this.itemsPerPage;
+        params.offset = (this.currentPage - 1) * this.itemsPerPage;
+      }
+
+      return params;
     }
   },
   data() {
     return {
       articles: [],
-      loading: false,
       articlesCount: 0,
       itemsPerPageList: [5, 10, 15, 20],
       query: {
+        favorited: null,
+        author: null,
+        tag: null,
         limit: 20,
         offset: 0
-      }
+      },
+      loading: false
     };
   },
   methods: {
-    async getArticles() {
+    getArticles() {
       this.loading = true;
-      let res = await ArticlesService.getFeed(this.query);
-      this.articles = res.data.articles;
-      this.articlesCount = res.data.articlesCount;
-      this.loading = false;
-
-      // ArticlesService.getList(this.listConfig)
-      //   .then(res => {
-      //     this.articles = res.data.articles;
-      //     this.articlesCount = res.data.articlesCount;
-      //   })
-      //   .catch(err => {
-      //     throw new Error(`[ERROR_ARTICLE_GET] ${err}`);
-      //   })
-      //   .finally(() => {
-      //     this.loading = false;
-      //   });
-    },
-    linkGen() {
-      return;
+      ArticlesService.getList(this.listConfig)
+        .then(res => {
+          this.articles = res.data.articles;
+          this.articlesCount = res.data.articlesCount;
+        })
+        .catch(err => {
+          throw new Error(`[ERROR_ARTICLE_GET] ${err}`);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     onClickItemCount(itemsCount) {
       this.query.limit = itemsCount;
+    },
+    linkGen() {
+      return;
     }
   },
   watch: {
-    query: {
+    listConfig: {
       immediate: true,
       handler: function() {
         this.getArticles();
@@ -104,6 +120,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>
