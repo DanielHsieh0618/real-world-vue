@@ -5,8 +5,7 @@ import store from './store'
 
 Vue.config.productionTip = false
 
-//import '@/assets/scss/custom.scss'
-
+import '@/assets/scss/custom.scss'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 
 

@@ -2,85 +2,45 @@
   <div id="nav">
     <nav class="navbar navbar-light">
       <div class="container">
-        <router-link
-          class="navbar-brand"
-          :to="{name:'Home'}"
-        >conduit</router-link>
-        <ul class="nav navbar-nav pull-xs-right">
+        <router-link class="navbar-brand" :to="{name:'Home'}">conduit</router-link>
+        <ul class="nav navbar-nav pull-xs-right navbar-expand">
           <li class="nav-item">
-            <router-link
-              class="nav-link"
-              active-class="active"
-              :to="{name:'Home'}"
-            >Home</router-link>
+            <router-link class="nav-link" active-class="active" :to="{name:'Home'}">Home</router-link>
           </li>
-          <li
-            v-if='isAuthenticated'
-            class="nav-item"
-          >
-            <router-link
-              class="nav-link"
-              active-class="active"
-              :to="{name:'Editor'}"
-            >
+          <li v-if="isAuthenticated" class="nav-item">
+            <router-link class="nav-link" active-class="active" :to="{name:'Editor'}">
               <i class="ion-compose"></i>&nbsp;New Post
             </router-link>
           </li>
-          <li
-            v-if='isAuthenticated'
-            class="nav-item"
-          >
-            <router-link
-              class="nav-link"
-              active-class="active"
-              :to="{name:'Settings'}"
-            >
+          <li v-if="isAuthenticated" class="nav-item">
+            <router-link class="nav-link" active-class="active" :to="{name:'Settings'}">
               <i class="ion-gear-a"></i>&nbsp;Settings
             </router-link>
           </li>
 
-          <li
-            v-if='isAuthenticated'
-            class="nav-item"
-          >
+          <li v-if="isAuthenticated" class="nav-item">
             <router-link
               class="nav-link"
               active-class="active"
               :to="{name:'Profile', params:{username:user.username}}"
             >
-              <i class="ion-person"></i>&nbsp; {{user.username}}
+              <i class="ion-person"></i>
+              &nbsp; {{user.username}}
             </router-link>
           </li>
-          <li
-            v-if='!status.loggedIn'
-            class="nav-item"
-          >
-            <router-link
-              class="nav-link"
-              active-class="active"
-              :to="{name:'Login'}"
-            >
+          <li v-if="!status.loggedIn" class="nav-item">
+            <router-link class="nav-link" active-class="active" :to="{name:'Login'}">
               <i class="ion-compose"></i>&nbsp;Sign in
             </router-link>
           </li>
-          <li
-            v-if='!status.loggedIn'
-            class="nav-item"
-          >
-            <router-link
-              class="nav-link"
-              active-class="active"
-              :to="{name:'Register'}"
-            >
+          <li v-if="!status.loggedIn" class="nav-item">
+            <router-link class="nav-link" active-class="active" :to="{name:'Register'}">
               <i class="ion-compose"></i>&nbsp;Sign up
             </router-link>
           </li>
-          <li
-            v-if='status.loggedIn'
-            class="nav-item"
-          >
+          <li v-if="status.loggedIn" class="nav-item">
             <button
-              type='button'
+              type="button"
               @click="signout"
               class="btn btn-sm btn-danger pull-xs-left"
             >Sign out</button>

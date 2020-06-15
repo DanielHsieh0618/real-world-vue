@@ -1,5 +1,7 @@
 <template>
-  <div v-if="loading">loading...</div>
+  <!-- <div v-if="loading">loading...</div> -->
+  <!-- <b-spinner v-if="loading" variant="primary" type="grow" label="Spinning"></b-spinner> -->
+  <b-spinner v-if="loading" class="m-4" variant="primary" label="Spinning"></b-spinner>
   <div v-else>
     <ArticlePreview
       v-for="article of articles"
@@ -8,14 +10,15 @@
       :article="article"
     ></ArticlePreview>
 
-    <div class="list-tool">
+    <div>
       <b-pagination-nav
         v-model="currentPage"
         :number-of-pages="totalPage"
         use-router
         :link-gen="linkGen"
+        class="float-left"
       ></b-pagination-nav>
-      <div>
+      <div class="float-right">
         items per page
         <div class="btn-group btn-group-sm">
           <button
@@ -29,7 +32,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>

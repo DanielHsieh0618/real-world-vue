@@ -1,6 +1,6 @@
 <template>
   <div id="articles">
-    <p v-if='loading'> loading...</p>
+    <b-spinner v-if="loading" class="m-4" variant="primary" label="Spinning"></b-spinner>
     <ArticlePreview
       v-else
       v-for="article of articles"
@@ -15,8 +15,9 @@
         :number-of-pages="totalPage"
         use-router
         :link-gen="linkGen"
+        class="float-left"
       ></b-pagination-nav>
-      <div>
+      <div class="float-right">
         items per page
         <div class="btn-group btn-group-sm">
           <button

@@ -15,10 +15,7 @@
             <!--tab navs-->
             <div class="feed-toggle">
               <ul class="nav nav-pills outline-active">
-                <li
-                  v-show="isLoggedIn"
-                  class="nav-item"
-                >
+                <li v-show="isLoggedIn" class="nav-item">
                   <router-link
                     class="nav-link"
                     active-class="active"
@@ -45,7 +42,6 @@
             </div>
             <!--tabs-->
             <router-view></router-view>
-
           </div>
 
           <div class="col-md-3">
@@ -94,11 +90,3 @@ export default {
 };
 </script>
 
-
-<style>
-.list-tool {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-</style>
