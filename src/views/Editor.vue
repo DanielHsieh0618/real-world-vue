@@ -3,7 +3,7 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-10 offset-md-1 col-xs-12">
-          <form :action="`${API_URL}/articles`" method="post">
+          <form :action="`${API_URL}/articles`" method="post" @submit.prevent="submit">
             <fieldset>
               <fieldset class="form-group">
                 <input
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { API_URL } from "../services/api.service";
+import { API_URL, ArticlesService } from "../services/api.service";
 
 export default {
   data() {
@@ -56,6 +56,17 @@ export default {
       article: {},
       API_URL: API_URL
     };
+  },
+  methods: {
+    async submit() {
+      console.log("submit");
+      try {
+        let res = await ArticlesService.create(this.article);
+        console.log(res);
+      } catch (err) {
+        throw new Error("err", err);
+      }
+    }
   }
 };
 </script>
