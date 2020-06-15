@@ -2,7 +2,7 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 const API_URL = "https://conduit.productionready.io/api";
-
+export { API_URL };
 
 class ApiService {
   constructor() {
@@ -61,7 +61,7 @@ export const ArticlesService = {
     return new ApiService().query('articles', { tag, author, favorited, limit, offset }, { headers: authHeader() })
   },
 
-  getFeed({ limit  = 20, offset =0}) {
+  getFeed({ limit = 20, offset = 0 }) {
     return new ApiService().query('articles/feed', { limit, offset }, { headers: authHeader() })
   },
 
@@ -136,3 +136,4 @@ export const ProfileService = {
     return new ApiService().delete(`profiles/${username}/follow`, { headers: authHeader() })
   }
 }
+
