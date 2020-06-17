@@ -2,7 +2,7 @@
 
 ## Technology
 
-- [ ] typescript 
+- [ ] typescript
 - [ ] unit test: jest
 - [ ] e2e test: nightwatch
 - [ ] vue-i18n
@@ -10,7 +10,7 @@
 - [X] bootstrap-vue
 - [x] axios: 0.19.2
 - [x] vue: 2.6.11
-- [x] vue-router: 3.1.6 
+- [x] vue-router: 3.1.6
 - [x] vuex: 3.1.3
 
 ## [bootstrap-vue](https://bootstrap-vue.org/docs) 

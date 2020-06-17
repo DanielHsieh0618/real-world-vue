@@ -8,9 +8,8 @@
           <form @submit.prevent="handleSubmit">
             <fieldset>
               <fieldset class="form-group">
-                <input
+                <b-form-input
                   v-model="user.image"
-                  class="form-control"
                   type="text"
                   placeholder="URL of profile picture"
                 />
